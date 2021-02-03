@@ -33,11 +33,13 @@ test.py
 plugins_test/*
 plugins0.x/*
 plugins_dev/*
+.DS_Store
 
 # user config files
 # these will be automatically generated at the first run
 config.yml
 permission.yml
+.env.example
 
 # sphinx documentation
 docs/build/
