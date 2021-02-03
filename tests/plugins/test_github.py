@@ -1,3 +1,4 @@
+from plugins.GitHub.typing.GitHubCardsState import GitHubCardsState
 import unittest
 import os
 
@@ -23,20 +24,56 @@ class GitHubTestCase(unittest.TestCase):
 
     def test_build_uri(self) -> None:
         self.assertEqual(
-            self.gh._build_uri('/a'), # type: ignore
+            self.gh._build_uri('/a'),  # type: ignore
             "https://api.github.com/a",
         )
 
     def test_rget(self) -> None:
-        url = self.gh._build_uri('/users/pan93412') # type: ignore
-        content = self.gh._rget(url).json() # type: ignore
+        url = self.gh._build_uri('/users/pan93412')  # type: ignore
+        content = self.gh._rget(url).json()  # type: ignore
 
         self.assertEqual(content["id"], 28441561)
 
     def test_exception(self) -> None:
-        exception = self.gh._exception('a') # type: ignore
+        exception = self.gh._exception('a')  # type: ignore
 
         self.assertEqual(str(exception), "Request failed: a")
+
+    def test_extract_query(self) -> None:
+        self.assertEqual(
+            self.gh._extract_query(  # type: ignore
+                {'a': 3}, ['a', 'b']),
+            {
+                'a': '3',
+            })
+
+        self.assertEqual(
+            self.gh._extract_query(  # type: ignore
+                {'a': '3'}, ['a', 'b']),
+            {
+                'a': '3',
+            })
+
+        self.assertEqual(
+            self.gh._extract_query(  # type: ignore
+                {
+                    'a': '3',
+                    'b': 2
+                }, ['a', 'b']),
+            {
+                'a': '3',
+                'b': '2'
+            })
+
+        self.assertEqual(
+            self.gh._extract_query(  # type: ignore
+                {'c': 'none'}, ['a', 'b']),
+            {})
+
+        self.assertEqual(
+            self.gh._extract_query(  # type: ignore
+                {'c': GitHubCardsState.ARCHIVED}, ['c']),
+            {'c': 'archived'})
 
     def test_get_user(self) -> None:
         user = self.gh.get_user('pan93412')
@@ -64,8 +101,8 @@ class GitHubTestCase(unittest.TestCase):
         self.assertEqual(project["id"], 11425566)
 
     def test_get_project_failed(self) -> None:
-        self.assertRaises(
-            Exception, lambda: self.gh.get_project({"project_id": -1}))
+        self.assertRaises(Exception,
+                          lambda: self.gh.get_project({"project_id": -1}))
 
     def test_list_columns(self) -> None:
         columns = self.gh.list_columns({"project_id": 11425566})
@@ -73,8 +110,8 @@ class GitHubTestCase(unittest.TestCase):
         self.assertGreaterEqual(len(columns), 1)
 
     def test_list_columns_failed(self) -> None:
-        self.assertRaises(
-            Exception, lambda: self.gh.list_columns({"project_id": -1}))
+        self.assertRaises(Exception,
+                          lambda: self.gh.list_columns({"project_id": -1}))
 
     def test_get_column(self) -> None:
         column = self.gh.get_column({"column_id": 12755884})
@@ -82,17 +119,25 @@ class GitHubTestCase(unittest.TestCase):
         self.assertEqual(column["id"], 12755884)
 
     def test_get_column_failed(self) -> None:
-        self.assertRaises(
-            Exception, lambda: self.gh.get_column({"column_id": -1}))
+        self.assertRaises(Exception,
+                          lambda: self.gh.get_column({"column_id": -1}))
 
     def test_list_cards(self) -> None:
         cards = self.gh.list_cards({"column_id": 12755884})
 
         self.assertGreaterEqual(len(cards), 1)
 
+    def test_list_archived_cards(self) -> None:
+        cards = self.gh.list_cards({
+            "column_id": 12755884,
+            "archived_state": GitHubCardsState.ARCHIVED
+        })
+
+        self.assertEqual(len(cards), 0)
+
     def test_list_cards_failed(self) -> None:
-        self.assertRaises(
-            Exception, lambda: self.gh.list_cards({"column_id": -1}))
+        self.assertRaises(Exception,
+                          lambda: self.gh.list_cards({"column_id": -1}))
 
     def test_get_card(self) -> None:
         card = self.gh.get_card({"card_id": 54127373})
@@ -100,5 +145,4 @@ class GitHubTestCase(unittest.TestCase):
         self.assertEqual(card["id"], 54127373)
 
     def test_get_card_failed(self) -> None:
-        self.assertRaises(
-            Exception, lambda: self.gh.get_card({"card_id": -1}))
+        self.assertRaises(Exception, lambda: self.gh.get_card({"card_id": -1}))

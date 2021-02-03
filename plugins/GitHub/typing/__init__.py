@@ -12,10 +12,12 @@ from .GitHubCardRequest import GitHubCardRequest
 from .GitHubCardsRequest import GitHubCardsRequest
 from .GitHubColumnRequest import GitHubColumnRequest
 from .GitHubProjectRequest import GitHubProjectRequest
+from .ParameterEnum import ParameterEnum
 
 typing_list = [
     GitHubCardRequest, GitHubCardInfo, GitHubCardsRequest, GitHubCardsState,
     GitHubColumnRequest, GitHubProjectCreator, GitHubProjectCreator,
     GitHubColumnsRequest, GitHubColumnInfo, GitHubProjectInfo,
-    GitHubProjectsRequest, GitHubUserInfo, GitHubProjectRequest
+    GitHubProjectsRequest, GitHubUserInfo, GitHubProjectRequest,
+    ParameterEnum
 ]
