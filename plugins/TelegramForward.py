@@ -1,7 +1,7 @@
 from typing import Any
 from mcdreforged.api.command import *
 from mcdreforged.api.types import *
-from MCDRTelegram import Telegram
+from mcdrtelegram import Telegram
 import os
 
 # Consts
