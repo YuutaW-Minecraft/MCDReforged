@@ -12,8 +12,10 @@ colorlog = "^4.7.2"
 colorama = "^0.4.4"
 psutil = "^5.8.0"
 parse = "^1.19.0"
+pytest = "^6.2.2"
 
 [tool.poetry.dev-dependencies]
+mypy = "^0.800"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
