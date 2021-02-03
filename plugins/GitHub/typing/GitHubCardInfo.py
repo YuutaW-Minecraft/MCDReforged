@@ -7,7 +7,7 @@ class GitHubCardInfo(TypedDict):
     id: int
     note: str
     creator: GitHubProjectCreator
-    created_at: str # todo: a standard date format
+    created_at: str  # todo: a standard date format
     updated_at: str
     archived: bool
     column_url: str

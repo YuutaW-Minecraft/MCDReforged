@@ -14,7 +14,7 @@ from .GitHubColumnRequest import GitHubColumnRequest
 
 typing_list = [
     GitHubCardRequest, GitHubCardInfo, GitHubCardsRequest, GitHubCardsState,
-    GitHubColumnRequest, GitHubProjectCreator, GitHubProjectCreator, 
-    GitHubColumnsRequest, GitHubColumnInfo, GitHubProjectInfo, GitHubProjectsRequest,
-    GitHubUserInfo
+    GitHubColumnRequest, GitHubProjectCreator, GitHubProjectCreator,
+    GitHubColumnsRequest, GitHubColumnInfo, GitHubProjectInfo,
+    GitHubProjectsRequest, GitHubUserInfo
 ]

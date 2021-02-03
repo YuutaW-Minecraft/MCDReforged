@@ -10,6 +10,7 @@ class GitHubProjectRequest(TypedDict):
     '''
     project_id: int
 
+
 class GitHub:
     api_root: str
     auth: Any
@@ -22,15 +23,14 @@ class GitHub:
         return f"{self.api_root}{method}"
 
     def _rget(self, url: str, headers: Dict[str, str] = {}) -> Response:
-        return requests.get(url, headers=headers, auth = self.auth) # type: ignore
+        return requests.get(url, headers=headers, # type: ignore
+                            auth=self.auth)
 
     def _rget_inertia_preview(self,
                               url: str,
                               headers: Dict[str, str] = {}) -> Response:
-        send_header = {
-            "Accept": "application/vnd.github.inertia-preview+json"
-        }
-        
+        send_header = {"Accept": "application/vnd.github.inertia-preview+json"}
+
         send_header.update(headers)
 
         return self._rget(url, send_header)
@@ -40,7 +40,7 @@ class GitHub:
 
     def _return_or_throw(self, r: Response) -> Any:
         if r.status_code == 200:
-            return r.json() # type: ignore
+            return r.json()  # type: ignore
         else:
             raise self._exception(r.text)
 
@@ -50,26 +50,32 @@ class GitHub:
 
     def list_projects(
             self, request: GitHubProjectsRequest) -> list[GitHubProjectInfo]:
-        r = self._rget_inertia_preview(self._build_uri(f'/orgs/{request["org"]}/projects'))
+        r = self._rget_inertia_preview(
+            self._build_uri(f'/orgs/{request["org"]}/projects'))
         return self._return_or_throw(r)
 
     def get_project(self, request: GitHubProjectRequest) -> GitHubProjectInfo:
-        r = self._rget_inertia_preview(self._build_uri(f'/projects/{request["project_id"]}'))
+        r = self._rget_inertia_preview(
+            self._build_uri(f'/projects/{request["project_id"]}'))
         return self._return_or_throw(r)
 
     def list_columns(self,
                      request: GitHubColumnsRequest) -> list[GitHubColumnInfo]:
-        r = self._rget_inertia_preview(self._build_uri(f'/projects/{request["project_id"]}/columns'))
+        r = self._rget_inertia_preview(
+            self._build_uri(f'/projects/{request["project_id"]}/columns'))
         return self._return_or_throw(r)
 
     def get_column(self, request: GitHubColumnRequest) -> GitHubColumnInfo:
-        r = self._rget_inertia_preview(self._build_uri(f'/projects/columns/{request["column_id"]}'))
+        r = self._rget_inertia_preview(
+            self._build_uri(f'/projects/columns/{request["column_id"]}'))
         return self._return_or_throw(r)
 
     def list_cards(self, request: GitHubCardsRequest) -> list[GitHubCardInfo]:
-        r = self._rget_inertia_preview(self._build_uri(f'/projects/columns/{request["column_id"]}/cards'))
+        r = self._rget_inertia_preview(
+            self._build_uri(f'/projects/columns/{request["column_id"]}/cards'))
         return self._return_or_throw(r)
-    
+
     def get_card(self, request: GitHubCardRequest) -> GitHubCardInfo:
-        r = self._rget_inertia_preview(self._build_uri(f'/projects/columns/cards/{request["card_id"]}'))
+        r = self._rget_inertia_preview(
+            self._build_uri(f'/projects/columns/cards/{request["card_id"]}'))
         return self._return_or_throw(r)

@@ -1,6 +1,7 @@
 from .GitHubCardsState import GitHubCardsState
 from typing import Optional, TypedDict
 
+
 class GitHubCardsRequest(TypedDict, total=False):
     '''
     column_id parameter
@@ -13,7 +14,7 @@ class GitHubCardsRequest(TypedDict, total=False):
 
     in: query
     '''
-    archived_state: Optional[GitHubCardsState] 
+    archived_state: Optional[GitHubCardsState]
     '''
     Results per page (max 100)
 

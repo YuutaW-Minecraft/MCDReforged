@@ -7,5 +7,5 @@ class GitHubColumnInfo(TypedDict):
     cards_url: str
     id: int
     name: str
-    created_at: str # todo: a standard date format
+    created_at: str  # todo: a standard date format
     updated_at: str

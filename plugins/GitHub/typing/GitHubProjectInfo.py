@@ -11,7 +11,7 @@ class GitHubProjectInfo(TypedDict):
     name: str
     body: str
     number: int
-    state: str # todo: enum
+    state: str  # todo: enum
     creator: GitHubProjectCreator
-    created_at: str # todo: a standard date format
+    created_at: str  # todo: a standard date format
     updated_at: str
