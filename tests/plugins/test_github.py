@@ -65,12 +65,12 @@ class GitHubTestCase(unittest.TestCase):
 
     def test_get_project_failed(self) -> None:
         self.assertRaises(
-            Exception, lambda: self.gh.list_projects({"project_id": -1}))
+            Exception, lambda: self.gh.get_project({"project_id": -1}))
 
     def test_list_columns(self) -> None:
         columns = self.gh.list_columns({"project_id": 11425566})
 
-        self.assertEqual(columns["id"], 11425566)
+        self.assertGreaterEqual(len(columns), 1)
 
     def test_list_columns_failed(self) -> None:
         self.assertRaises(
@@ -84,3 +84,21 @@ class GitHubTestCase(unittest.TestCase):
     def test_get_column_failed(self) -> None:
         self.assertRaises(
             Exception, lambda: self.gh.get_column({"column_id": -1}))
+
+    def test_list_cards(self) -> None:
+        cards = self.gh.list_cards({"column_id": 12755884})
+
+        self.assertGreaterEqual(len(cards), 1)
+
+    def test_list_cards_failed(self) -> None:
+        self.assertRaises(
+            Exception, lambda: self.gh.list_cards({"column_id": -1}))
+
+    def test_get_card(self) -> None:
+        card = self.gh.get_card({"card_id": 54127373})
+
+        self.assertEqual(card["id"], 54127373)
+
+    def test_get_card_failed(self) -> None:
+        self.assertRaises(
+            Exception, lambda: self.gh.get_card({"card_id": -1}))

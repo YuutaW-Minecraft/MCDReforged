@@ -1,3 +1,5 @@
+from plugins.GitHub.typing.GitHubCardRequest import GitHubCardRequest
+from plugins.GitHub.typing.GitHubCardsRequest import GitHubCardsRequest
 from plugins.GitHub.typing.GitHubColumnRequest import GitHubColumnRequest
 from typing import Any, Dict, TypedDict
 from requests.models import Response
@@ -65,4 +67,12 @@ class GitHub:
 
     def get_column(self, request: GitHubColumnRequest) -> GitHubColumnInfo:
         r = self._rget_inertia_preview(self._build_uri(f'/projects/columns/{request["column_id"]}'))
+        return self._return_or_throw(r)
+
+    def list_cards(self, request: GitHubCardsRequest) -> list[GitHubCardRequest]:
+        r = self._rget_inertia_preview(self._build_uri(f'/projects/columns/{request["column_id"]}/cards'))
+        return self._return_or_throw(r)
+    
+    def get_card(self, request: GitHubCardRequest) -> GitHubCardRequest:
+        r = self._rget_inertia_preview(self._build_uri(f'/projects/columns/cards/{request["card_id"]}'))
         return self._return_or_throw(r)

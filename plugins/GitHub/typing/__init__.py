@@ -5,3 +5,5 @@ from .GitHubColumnsRequest import GitHubColumnsRequest
 from .GitHubColumnInfo import GitHubColumnInfo
 from .GitHubProjectCreator import GitHubProjectCreator
 from .GitHubColumnRequest import GitHubColumnRequest
+from .GitHubCardsRequest import GitHubCardsRequest
+from .GitHubCardsState import GitHubCardsState
