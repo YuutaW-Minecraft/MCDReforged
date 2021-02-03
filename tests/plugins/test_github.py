@@ -18,23 +18,23 @@ class GitHubTestCase(unittest.TestCase):
             #     admin:org, notifications, repo, user
             self.gh = GitHub(
                 HTTPBasicAuth(os.environ["GH_USER"], os.environ["GH_TOKEN"]))
-        except KeyError as e:
+        except KeyError:
             self.gh = GitHub()
 
     def test_build_uri(self) -> None:
         self.assertEqual(
-            self.gh._build_uri('/a'),
+            self.gh._build_uri('/a'), # type: ignore
             "https://api.github.com/a",
         )
 
     def test_rget(self) -> None:
-        url = self.gh._build_uri('/users/pan93412')
-        content = self.gh._rget(url).json()
+        url = self.gh._build_uri('/users/pan93412') # type: ignore
+        content = self.gh._rget(url).json() # type: ignore
 
         self.assertEqual(content["id"], 28441561)
 
     def test_exception(self) -> None:
-        exception = self.gh._exception('a')
+        exception = self.gh._exception('a') # type: ignore
 
         self.assertEqual(str(exception), "Request failed: a")
 

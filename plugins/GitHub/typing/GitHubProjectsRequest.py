@@ -1,7 +1,7 @@
-from typing import TypedDict
+from typing import Optional, TypedDict
 
 
-class GitHubProjectsRequest(TypedDict):
+class GitHubProjectsRequest(TypedDict, total=False):
     '''
     in: path
     '''
@@ -11,10 +11,10 @@ class GitHubProjectsRequest(TypedDict):
 
     in: query
     '''
-    per_page: int
+    per_page: Optional[int]
     '''
     Page number of the results to fetch.
 
     in: query
     '''
-    page: int
+    page: Optional[int]

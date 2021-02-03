@@ -1,9 +1,6 @@
-from plugins.GitHub.typing.GitHubCardRequest import GitHubCardRequest
-from plugins.GitHub.typing.GitHubCardsRequest import GitHubCardsRequest
-from plugins.GitHub.typing.GitHubColumnRequest import GitHubColumnRequest
 from typing import Any, Dict, TypedDict
 from requests.models import Response
-from .typing import GitHubUserInfo, GitHubProjectInfo, GitHubProjectsRequest, GitHubColumnInfo, GitHubColumnsRequest
+from .typing import GitHubUserInfo, GitHubProjectInfo, GitHubProjectsRequest, GitHubColumnInfo, GitHubColumnsRequest, GitHubColumnRequest, GitHubCardRequest, GitHubCardInfo, GitHubCardsRequest
 import requests
 
 
@@ -17,7 +14,7 @@ class GitHub:
     api_root: str
     auth: Any
 
-    def __init__(self, auth = None):
+    def __init__(self, auth: Any = None):
         self.api_root = "https://api.github.com"
         self.auth = auth
 
@@ -25,7 +22,7 @@ class GitHub:
         return f"{self.api_root}{method}"
 
     def _rget(self, url: str, headers: Dict[str, str] = {}) -> Response:
-        return requests.get(url, headers=headers, auth = self.auth)
+        return requests.get(url, headers=headers, auth = self.auth) # type: ignore
 
     def _rget_inertia_preview(self,
                               url: str,
@@ -43,7 +40,7 @@ class GitHub:
 
     def _return_or_throw(self, r: Response) -> Any:
         if r.status_code == 200:
-            return r.json()
+            return r.json() # type: ignore
         else:
             raise self._exception(r.text)
 
@@ -69,10 +66,10 @@ class GitHub:
         r = self._rget_inertia_preview(self._build_uri(f'/projects/columns/{request["column_id"]}'))
         return self._return_or_throw(r)
 
-    def list_cards(self, request: GitHubCardsRequest) -> list[GitHubCardRequest]:
+    def list_cards(self, request: GitHubCardsRequest) -> list[GitHubCardInfo]:
         r = self._rget_inertia_preview(self._build_uri(f'/projects/columns/{request["column_id"]}/cards'))
         return self._return_or_throw(r)
     
-    def get_card(self, request: GitHubCardRequest) -> GitHubCardRequest:
+    def get_card(self, request: GitHubCardRequest) -> GitHubCardInfo:
         r = self._rget_inertia_preview(self._build_uri(f'/projects/columns/cards/{request["card_id"]}'))
         return self._return_or_throw(r)

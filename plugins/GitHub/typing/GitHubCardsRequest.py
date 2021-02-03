@@ -1,7 +1,7 @@
 from .GitHubCardsState import GitHubCardsState
-from typing import TypedDict
+from typing import Optional, TypedDict
 
-class GitHubCardsRequest(TypedDict):
+class GitHubCardsRequest(TypedDict, total=False):
     '''
     column_id parameter
 
@@ -13,16 +13,16 @@ class GitHubCardsRequest(TypedDict):
 
     in: query
     '''
-    archived_state: GitHubCardsState
+    archived_state: Optional[GitHubCardsState] 
     '''
     Results per page (max 100)
 
     in: query
     '''
-    per_page: int
+    per_page: Optional[int]
     '''
     Page number of the results to fetch.
 
     in: query
     '''
-    page: int
+    page: Optional[int]

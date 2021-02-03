@@ -7,3 +7,14 @@ from .GitHubProjectCreator import GitHubProjectCreator
 from .GitHubColumnRequest import GitHubColumnRequest
 from .GitHubCardsRequest import GitHubCardsRequest
 from .GitHubCardsState import GitHubCardsState
+from .GitHubCardInfo import GitHubCardInfo
+from .GitHubCardRequest import GitHubCardRequest
+from .GitHubCardsRequest import GitHubCardsRequest
+from .GitHubColumnRequest import GitHubColumnRequest
+
+typing_list = [
+    GitHubCardRequest, GitHubCardInfo, GitHubCardsRequest, GitHubCardsState,
+    GitHubColumnRequest, GitHubProjectCreator, GitHubProjectCreator, 
+    GitHubColumnsRequest, GitHubColumnInfo, GitHubProjectInfo, GitHubProjectsRequest,
+    GitHubUserInfo
+]
