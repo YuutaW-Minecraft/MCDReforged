@@ -1,23 +1,65 @@
+from typing import Any, Dict, TypedDict
 from requests.models import Response
-from .typing.GitHubUserInfo import GitHubUserInfo
+from .typing import GitHubUserInfo, GitHubProjectInfo, GitHubProjectsRequest, GitHubColumnInfo, GitHubColumnsRequest
 import requests
+
+
+class GitHubProjectRequest(TypedDict):
+    '''
+    in: path
+    '''
+    project_id: int
 
 class GitHub:
     api_root: str
+    auth: Any
 
-    def __init__(self):
+    def __init__(self, auth = None):
         self.api_root = "https://api.github.com"
-    
+        self.auth = auth
+
     def _build_uri(self, method: str) -> str:
         return f"{self.api_root}{method}"
 
-    def _rget(self, url: str) -> Response:
-        return requests.get(url)
+    def _rget(self, url: str, headers: Dict[str, str] = {}) -> Response:
+        return requests.get(url, headers=headers, auth = self.auth)
 
-    def get_user(self, id: str) -> GitHubUserInfo:
-        r = self._rget(self._build_uri(f'/users/{id}'))
+    def _rget_inertia_preview(self,
+                              url: str,
+                              headers: Dict[str, str] = {}) -> Response:
+        send_header = {
+            "Accept": "application/vnd.github.inertia-preview+json"
+        }
+        
+        send_header.update(headers)
 
+        return self._rget(url, send_header)
+
+    def _exception(self, text: str) -> Exception:
+        return Exception(f"Request failed: {text}")
+
+    def _return_or_throw(self, r: Response) -> Any:
         if r.status_code == 200:
             return r.json()
         else:
-            raise Exception("Something went wrong when getting users.")
+            raise self._exception(r.text)
+
+    def get_user(self, id: str) -> GitHubUserInfo:
+        r = self._rget(self._build_uri(f'/users/{id}'))
+        return self._return_or_throw(r)
+
+    def list_projects(
+            self, request: GitHubProjectsRequest) -> list[GitHubProjectInfo]:
+        r = self._rget_inertia_preview(self._build_uri(f'/orgs/{request["org"]}/projects'))
+        return self._return_or_throw(r)
+
+    def get_project(self, request: GitHubProjectRequest) -> GitHubProjectInfo:
+        r = self._rget_inertia_preview(self._build_uri(f'/projects/{request["project_id"]}'))
+        return self._return_or_throw(r)
+
+    def list_columns(self,
+                     request: GitHubColumnsRequest) -> list[GitHubColumnInfo]:
+        pass
+
+    def get_column(self, request: GitHubProjectRequest) -> GitHubProjectInfo:
+        pass
