@@ -2,7 +2,7 @@
 .idea
 
 # python things
-__pycache__
+*/__pycache__
 venv/
 .pytest_cache
 
@@ -17,6 +17,9 @@ logs/
 config/
 server/*
 release/
+plugins/*
+!SamplePlugin.py
+!plugins/test.py
 
 # plugin things
 qb_multi/
