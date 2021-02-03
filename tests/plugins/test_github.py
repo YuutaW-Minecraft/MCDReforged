@@ -66,3 +66,21 @@ class GitHubTestCase(unittest.TestCase):
     def test_get_project_failed(self) -> None:
         self.assertRaises(
             Exception, lambda: self.gh.list_projects({"project_id": -1}))
+
+    def test_list_columns(self) -> None:
+        columns = self.gh.list_columns({"project_id": 11425566})
+
+        self.assertEqual(columns["id"], 11425566)
+
+    def test_list_columns_failed(self) -> None:
+        self.assertRaises(
+            Exception, lambda: self.gh.list_columns({"project_id": -1}))
+
+    def test_get_column(self) -> None:
+        column = self.gh.get_column({"column_id": 12755884})
+
+        self.assertEqual(column["id"], 12755884)
+
+    def test_get_column_failed(self) -> None:
+        self.assertRaises(
+            Exception, lambda: self.gh.get_column({"column_id": -1}))

@@ -1,3 +1,4 @@
+from plugins.GitHub.typing.GitHubColumnRequest import GitHubColumnRequest
 from typing import Any, Dict, TypedDict
 from requests.models import Response
 from .typing import GitHubUserInfo, GitHubProjectInfo, GitHubProjectsRequest, GitHubColumnInfo, GitHubColumnsRequest
@@ -59,7 +60,9 @@ class GitHub:
 
     def list_columns(self,
                      request: GitHubColumnsRequest) -> list[GitHubColumnInfo]:
-        pass
+        r = self._rget_inertia_preview(self._build_uri(f'/projects/{request["project_id"]}/columns'))
+        return self._return_or_throw(r)
 
-    def get_column(self, request: GitHubProjectRequest) -> GitHubProjectInfo:
-        pass
+    def get_column(self, request: GitHubColumnRequest) -> GitHubColumnInfo:
+        r = self._rget_inertia_preview(self._build_uri(f'/projects/columns/{request["column_id"]}'))
+        return self._return_or_throw(r)
