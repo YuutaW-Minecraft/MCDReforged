@@ -1,14 +1,7 @@
-from typing import Any, Dict, TypedDict
+from typing import Any, Dict
 from requests.models import Response
-from .typing import GitHubUserInfo, GitHubProjectInfo, GitHubProjectsRequest, GitHubColumnInfo, GitHubColumnsRequest, GitHubColumnRequest, GitHubCardRequest, GitHubCardInfo, GitHubCardsRequest
+from .typing import GitHubUserInfo, GitHubProjectInfo, GitHubProjectsRequest, GitHubColumnInfo, GitHubColumnsRequest, GitHubColumnRequest, GitHubCardRequest, GitHubCardInfo, GitHubCardsRequest, GitHubProjectRequest
 import requests
-
-
-class GitHubProjectRequest(TypedDict):
-    '''
-    in: path
-    '''
-    project_id: int
 
 
 class GitHub:

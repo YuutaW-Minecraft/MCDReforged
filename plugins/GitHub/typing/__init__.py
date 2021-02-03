@@ -11,10 +11,11 @@ from .GitHubCardInfo import GitHubCardInfo
 from .GitHubCardRequest import GitHubCardRequest
 from .GitHubCardsRequest import GitHubCardsRequest
 from .GitHubColumnRequest import GitHubColumnRequest
+from .GitHubProjectRequest import GitHubProjectRequest
 
 typing_list = [
     GitHubCardRequest, GitHubCardInfo, GitHubCardsRequest, GitHubCardsState,
     GitHubColumnRequest, GitHubProjectCreator, GitHubProjectCreator,
     GitHubColumnsRequest, GitHubColumnInfo, GitHubProjectInfo,
-    GitHubProjectsRequest, GitHubUserInfo
+    GitHubProjectsRequest, GitHubUserInfo, GitHubProjectRequest
 ]
