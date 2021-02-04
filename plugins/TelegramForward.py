@@ -1,9 +1,12 @@
+from asyncio.base_events import Server
+import logging
 from plugins.telegram_forward_utils.getenv import getenv
-from typing import Any
+from typing import Any, Optional
 from mcdreforged.api.command import *
 from mcdreforged.api.types import *
 from mcdrtelegram import Telegram
 import asyncio
+from aiogram import types as atypes
 
 # Consts
 PLUGIN_METADATA = {
@@ -25,14 +28,20 @@ chat_id = getenv("BOT_CHATID", "Where to send the messages?")
 bot_base = Telegram(token)
 bot = bot_base.get_bot()
 dp = bot_base.get_dp()
+minecraft_server: Optional[ServerInterface] = None
 
 # Library
 def send_to_tg(scope: str, message: str):
-    asyncio.run(bot.send_message(chat_id, f"{scope}: {message}"))
+    asyncio.run(bot.send_message(chat_id, f"<minecraft:{scope}> {message}"))
+
+def send_to_mc(scope: str, message: str):
+    minecraft_server.say(f"<telegram:{scope}> {message}")  # type: ignore
 
 # Events from Minecraft
 def on_load(server: ServerInterface, old_module: Any):
-     bot_base.start_polling()
+    global minecraft_server
+    minecraft_server = server
+    bot_base.start_polling()
 
 def on_unload(server: ServerInterface):
     bot_base.stop_polling()
@@ -63,3 +72,27 @@ def on_server_stop(server: ServerInterface, return_code: int):
 def on_mcdr_start(server: ServerInterface): pass
 
 def on_mcdr_stop(server: ServerInterface): pass
+
+@dp.message_handler()  # type: ignore
+def on_telegram_received_message(message: atypes.Message):
+    if minecraft_server == None or message == None:
+        logging.warn("minecraft_server or message is none. Ignoring.")
+        return
+
+    usr_first_name: str = SERVER_SCOPE if message.from_user == None else message.from_user.first_name
+    caption = message.caption if message.caption else ''
+
+    if caption == "#nofwd":
+        return
+
+    if message.text not in ['#nofwd', None]:
+        text = message.text[:50] + "⋯⋯" if len(message.text) > 50 else message.text
+        send_to_mc(usr_first_name, text)
+    elif message.sticker != None:
+        send_to_mc(usr_first_name, f"(sticker)")
+    elif message.photo != None:
+        send_to_mc(usr_first_name, "(photo) {caption}")
+    elif message.document != None:
+        send_to_mc(usr_first_name, "(document) {caption}")
+    else:
+        send_to_mc(usr_first_name, "There are something new in Telegram!")
