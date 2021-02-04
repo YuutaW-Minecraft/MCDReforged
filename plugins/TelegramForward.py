@@ -3,7 +3,6 @@ from typing import Any
 from mcdreforged.api.command import *
 from mcdreforged.api.types import *
 from mcdrtelegram import Telegram
-import os
 
 # Consts
 PLUGIN_METADATA = {
@@ -29,7 +28,7 @@ dp = bot_base.get_dp()
 
 # Library
 def send_to_tg(scope: str, message: str):
-    return bot.send_message(chat_id, f"<{scope}> {message}")
+    return bot.send_message(chat_id, f"{scope}: {message}")
 
 # Events from Minecraft
 def on_load(server: ServerInterface, old_module: Any):
