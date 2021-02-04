@@ -32,7 +32,7 @@ def send_to_tg(scope: str, message: str):
 
 # Events from Minecraft
 def on_load(server: ServerInterface, old_module: Any):
-     bot_base.start_polling()
+    asyncio.run(bot_base.start_polling())
 
 def on_unload(server: ServerInterface):
     bot_base.stop_polling()
