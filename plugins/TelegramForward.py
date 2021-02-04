@@ -25,10 +25,12 @@ chat_id = getenv("BOT_CHATID", "Where to send the messages?")
 bot_base = Telegram(token)
 bot = bot_base.get_bot()
 dp = bot_base.get_dp()
+loop = asyncio.new_event_loop()
+asyncio.set_event_loop(loop)
 
 # Library
 def send_to_tg(scope: str, message: str):
-    asyncio.run(bot.send_message(chat_id, f"{scope}: {message}"))
+    loop.run_until_complete(bot.send_message(chat_id, f"{scope}: {message}"))
 
 # Events from Minecraft
 def on_load(server: ServerInterface, old_module: Any):
@@ -38,7 +40,7 @@ def on_unload(server: ServerInterface):
     bot_base.stop_polling()
 
 def on_remove(server: ServerInterface):
-    asyncio.run(bot_base.stop_bot())
+    loop.run_until_complete(bot_base.stop_bot())
 
 def on_info(server: ServerInterface, info: Info): pass
 
