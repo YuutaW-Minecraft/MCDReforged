@@ -21,7 +21,7 @@ SERVER_SCOPE = "Server"
 
 # Pre-initiation
 token = getenv("BOT_TOKEN", "The Telegram bot token.")
-chat_id = getenv("BOT_TOKEN", "Where to send the messages?")
+chat_id = getenv("BOT_CHATID", "Where to send the messages?")
 bot_base = Telegram(token)
 bot = bot_base.get_bot()
 dp = bot_base.get_dp()
