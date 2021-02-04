@@ -42,9 +42,7 @@ def on_unload(server: ServerInterface):
 def on_remove(server: ServerInterface):
     loop.run_until_complete(bot_base.stop_bot())
 
-def on_info(server: ServerInterface, info: Info):
-    if info.content:
-        send_to_tg(SERVER_SCOPE, info.content)
+def on_info(server: ServerInterface, info: Info): pass
 
 def on_user_info(server: ServerInterface, info: Info):
     if info.content:
