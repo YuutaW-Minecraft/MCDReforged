@@ -1,3 +1,4 @@
+from plugins.telegram_forward_utils.getenv import getenv
 from typing import Any
 from mcdreforged.api.command import *
 from mcdreforged.api.types import *
@@ -20,15 +21,8 @@ PLUGIN_METADATA = {
 SERVER_SCOPE = "Server"
 
 # Pre-initiation
-token = os.getenv("BOT_TOKEN")
-chat_id = os.getenv("BOT_CHATID")
-
-if not token:
-    raise Exception("TelegramForward: You didn't specify the BOT_TOKEN token.")
-
-if not chat_id:
-    raise Exception("TelegramForward: You didn't specify the CHAT_ID.")
-
+token = getenv("BOT_TOKEN", "The Telegram bot token.")
+chat_id = getenv("BOT_TOKEN", "Where to send the messages?")
 bot_base = Telegram(token)
 bot = bot_base.get_bot()
 dp = bot_base.get_dp()
