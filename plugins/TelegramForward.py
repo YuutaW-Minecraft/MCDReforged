@@ -14,7 +14,6 @@ PLUGIN_METADATA = {
 	'link': 'https://github.com/YuutaW-Minecraft/mcdr-telegram',  # A str to your plugin home page
 	'dependencies': {
 		'mcdreforged': '>=1.0.0',
-        'mcdrtelegram': '>=0.1.0'
 	}
 }
 SERVER_SCOPE = "Server"
