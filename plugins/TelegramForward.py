@@ -25,7 +25,7 @@ chat_id = getenv("BOT_CHATID", "Where to send the messages?")
 bot_base = Telegram(token)
 bot = bot_base.get_bot()
 dp = bot_base.get_dp()
-loop = asyncio.get_event_loop()
+loop = asyncio.new_event_loop()
 asyncio.set_event_loop(loop)
 
 # Library
